@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2012, Code Aurora Forum. All rights reserved.
+# Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -7,7 +7,7 @@
 #     * Redistributions in binary form must reproduce the above copyright
 #       notice, this list of conditions and the following disclaimer in the
 #       documentation and/or other materials provided with the distribution.
-#     * Neither the name of Code Aurora nor
+#     * Neither the name of The Linux Foundation nor
 #       the names of its contributors may be used to endorse or promote
 #       products derived from this software without specific prior written
 #       permission.
@@ -26,6 +26,10 @@
 #
 
 import init.pantech.usb.rc
+import init.target.rc
+
+on early-init
+    write /sys/block/mmcblk0/queue/scheduler noop
 
 on init
     # Set permissions for persist partition
@@ -36,12 +40,14 @@ on init
 
     #External storage directories
     mkdir /storage/emulated/legacy 0555 root root
+    
     mkdir /mnt/media_rw/external_sd 0700 media_rw media_rw
     mkdir /mnt/media_rw/usbdisk 0700 media_rw media_rw
-    mkdir /storage/external_sd 0700 root root
-    mkdir /storage/usbdisk 0700 root root
+    
+    mkdir /storage/external_sd 0775 system system
+    mkdir /storage/usbdisk 0775 system system
 
-    export EXTERNAL_STORAGE /storage/emulated/legacy  
+    export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
     export EMULATED_STORAGE_TARGET /storage/emulated
     export SECONDARY_STORAGE /storage/external_sd
@@ -61,17 +67,20 @@ on init
     
     symlink /system/cameradata /cameradata
     
-    export VIBE_PIPE_PATH /dev/pipes
+#20130108. modiyaro.
+    chown system system /sys/module/msm_thermal/parameters/ecocpu
     
-    write /proc/sys/kernel/dmesg_restrict 1
-    
-    mkdir /dev/pipes 0771 shell shell
-    
-    chown system system /sys/module/msm_thermal/parameters/echocpu
+# create USB host bus directory here so that libusbhost
+# can start monitoring.
+    mkdir /dev/bus 0755 root root
+    mkdir /dev/bus/usb 0755 root root
     
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
+    exec /system/bin/sh /init.qcom.syspart_fixup.sh ${ro.board.platform} ${ro.serialno}
+    
+    #setprop qcom.audio.init complete
 
 on boot
 # basic network init
@@ -79,27 +88,19 @@ on boot
 #    hostname localhost
 #    domainname localdomain
     
-    setprop persist.sys.usb.config "mtp,diag,diag_mdm,serial_hsic,obex,adb"
-    
-#FEATURE_SKY_DATA_ENCRYPTION	#p13795
-#    setprop ro.crypto.keyfile.userdata /persist/metadata
-# set RLIMIT_NICE to allow priorities from 19 to -20
-#    setrlimit 13 40 40
+    setprop persist.sys.usb.config "cdrom,mtp,diag,diag_mdm,serial_hsic,obex,adb"
+   
 
- # set SKY-LCD density to 320dpi  [LS5-LCD]
-	setprop ro.sf.lcd_density 320
+#LS1 LCD
     # Related CONFIG_F_SKYDISP_CABC_CTRL 
     chown system system /sys/class/graphics/fb0/cabc_ctl
     chmod 0664 /sys/class/graphics/fb0/cabc_ctl
-    # Related CONFIG_F_SKYDISP_CE_TUNING_M2
-    chown system system /sys/class/graphics/fb0/ce_ctl
-    chmod 0664 /sys/class/graphics/fb0/ce_ctl    
-    chown system system /sys/class/graphics/fb0/encryption
-    chmod 0664 /sys/class/graphics/fb0/encryption
+    chown system system /sys/class/graphics/fb0/sharpness_ctl
+    chmod 0664 /sys/class/graphics/fb0/sharpness_ctl
     
 # CONFIG_PN544
-	chown system nfc /dev/pn544
-    chmod 0666 /dev/pn544
+    chmod 0600 /dev/pn544
+    chown nfc nfc /dev/pn544
  
 # P12911
 	chmod 0666 /dev/led_fops
@@ -121,10 +122,6 @@ on boot
     #[FEATURE_LGU_CP_LTE_UPLUS_KNIGHT_WDIAG]
     # mkdir /dev/socket/ukd 0770 radio system
     # chmod 2770 /dev/socket/ukd
-    
-    setprop persist.service.btcmd "0"
-    setprop ro.bt.bdaddr_path "/persist/.bt_nv.bin"
-    chown bluetooth bluetooth ro.bt.bdaddr_path
     
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -173,7 +170,12 @@ on boot
     setprop ro.telephony.call_ring.multiple false
 
     #Set SUID bit for usbhub
-    chmod 4755 /system/bin/usbhub
+# LS4 USB[+]
+# usbhub must not have super user permission. It causes fail for CTS test.
+# Also we do not use usbhub in APQ8064   
+    #chmod 4755 /system/bin/usbhub
+    chmod 0755 /system/bin/usbhub
+# LS4 USB[-]    
     chmod 755 /system/bin/usbhub_init
 
     #Remove SUID bit for iproute2 ip tool
@@ -189,30 +191,41 @@ on boot
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
-    # create symlink for fb1 as HDMI
-    symlink /dev/graphics/fb1 /dev/graphics/hdmi
-
-    # Remove write permissions to video related nodes
-    chmod 0664 /sys/devices/virtual/graphics/fb1/hpd
-    chmod 0664 /sys/devices/virtual/graphics/fb1/video_mode
-    chmod 0664 /sys/devices/virtual/graphics/fb1/format_3d
-    chown system graphics /sys/class/graphics/fb1/vscr_info
-    chmod 0664 /sys/devices/virtual/graphics/fb1/vscr_info
-
-    #HDMID Permission for sys nodes
-    chown system graphics /sys/class/graphics/fb1/connected
-    chown system graphics /sys/class/graphics/fb1/edid_modes
-    chown system graphics /sys/class/graphics/fb1/power_state
-    chown system graphics /sys/class/graphics/fb1/hpd
-    chown system graphics /sys/class/graphics/fb1/hdcp_present
-    chown system graphics /sys/class/graphics/fb1/hdmi_mode
-    chmod 0660 /sys/class/graphics/fb1/power_state
-
-    # Change owner and group for media server and surface flinger
-    chown system system /sys/devices/virtual/graphics/fb1/format_3d
+    # Change permissions for fps_level nodes
+    chown system graphics /sys/class/graphics/fb0/msm_fb_fps_level
+    chown system graphics /sys/class/graphics/fb1/msm_fb_fps_level
+    chown system graphics /sys/class/graphics/fb2/msm_fb_fps_level
+    chmod 644 /sys/class/graphics/fb0/msm_fb_fps_level
+    chmod 400 /sys/class/graphics/fb1/msm_fb_fps_level
+    chmod 400 /sys/class/graphics/fb2/msm_fb_fps_level
 
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+
+    #20140521 DS1 p16637 fix EF52L_KK PLM 00216 (EF51, EF52 JB -> KK)
+    chmod 0704 /data/data/com.android.settings/files/holddef.png
+
+#   Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
+#FEATURE_LGU_DS_TCP_BUFFER_FOR_LTE    setprop net.tcp.buffersize.lte     4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.lte     4096,221184,5191630,4096,221184,5191630
+    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsupa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsdpa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo_b  4094,87380,262144,4096,16384,262144
+    setprop net.tcp.buffersize.ehrpd   4094,87380,262144,4096,16384,262144
+    setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
+
+# Assign TCP buffer thresholds to be ceiling value of technology maximums
+# Increased technology maximums should be reflected here.
+#FEATURE_LGU_DS_TCP_BUFFER_FOR_LTE    write /proc/sys/net/core/rmem_max  2097152
+#FEATURE_LGU_DS_TCP_BUFFER_FOR_LTE    write /proc/sys/net/core/wmem_max  1220608
+    write /proc/sys/net/core/rmem_max  3461120
+    write /proc/sys/net/core/wmem_max  3461120
 
     #To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -244,29 +257,16 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # Flash storage isn't a good entropy source, and only causes locking
-    # overhead in the kernel. Turn it off.
-    write /sys/block/mmcblk0/queue/add_random 0
-    
-# Assign TCP buffer thresholds to be ceiling value of technology maximums
-# Increased technology maximums should be reflected here.
-#FEATURE_LGT_DS_TCP_BUFFER_FOR_LTE    write /proc/sys/net/core/rmem_max  2097152
-#FEATURE_LGT_DS_TCP_BUFFER_FOR_LTE    write /proc/sys/net/core/wmem_max  1220608
-    write /proc/sys/net/core/rmem_max  3461120
-    write /proc/sys/net/core/wmem_max  3461120
-
 # import cne init file
 on post-fs
-    export_rc /persist/init.cne.rc
+   export LD_PRELOAD /system/lib/libNimsWrap.so
+   
 
 # msm specific files that need to be created on /data
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
-    
-    mkdir /data/user/ 0771 system system
-#    symlink /data/data /data/user/0
 
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
     
@@ -278,6 +278,13 @@ on post-fs-data
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
+    
+    # Create the directories used by CnE subsystem
+    mkdir /data/connectivity 0771 system system
+    chown system system /data/connectivity
+
+    mkdir /data/connectivity/nsrm 0771 system system
+    chown system system /data/connectivity/nsrm
     
     # Update WIFI MAC address 
     write /dev/wcnss_wlan 1
@@ -309,20 +316,13 @@ on post-fs-data
     mkdir /data/system 0775 system system
     #symlink /data/misc/wifi/wpa_supplicant /data/system/wpa_supplicant
 
-    #Create directories for wiper services
-    mkdir /data/wpstiles/ 0755 shell
-    mkdir /data/wiper 0755 gps qcom_oncrpc
-
-    #Create directories for gpsone_daemon services
-    mkdir /data/misc/gpsone_d 0770 system gps
-
-    #Create directories for QuIPS
-    mkdir /data/misc/quipc 0770 gps system
-
     #Create directories for Location services
     mkdir /data/misc/location 0770 gps gps
     mkdir /data/misc/location/mq 0770 gps gps
     mkdir /data/misc/location/xtwifi 0770 gps gps
+    mkdir /data/misc/location/gpsone_d 0770 system gps
+    mkdir /data/misc/location/quipc 0770 gps system
+    mkdir /data/misc/location/gsiff 0770 gps gps
 
     #Create directory from IMS services
     mkdir /data/shared 0755
@@ -332,8 +332,8 @@ on post-fs-data
     mkdir /data/fota 0771
     chown system system /data/fota
 
-    #Provide the access to hostapd.conf only to root and group
-    chmod 0660 /data/hostapd/hostapd.conf
+    #Create directory for hostapd
+    mkdir /data/hostapd 0770 system wifi
 
     # Create /data/time folder for time-services
     mkdir /data/time/ 0700 system system
@@ -414,6 +414,11 @@ on post-fs-data
     mkdir /data/LGTContents/music 0770 system lgt_gid
     mkdir /data/LGTContents/video 0770 system lgt_gid    
     mkdir /data/LGTContents/sms_bell 0770 system lgt_gid 
+    
+#P11536-SHPARK
+    mkdir /persist/avc 0660 root root
+    write /persist/avc/denied.log ""
+    chmod 0660 /persist/avc/denied.log
 
 # cpmgr pipe [FEATURE_LGU_CP_MANAGER_DAEMON_INTERFACE]
     mkdir /dev/cpmgr
@@ -443,6 +448,26 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
+    
+    
+#++p16092 add -140122:LED_BLINK_CONTROL
+   	
+    chmod 0660 /sys/class/leds/blue/pan_led
+    chmod 0660 /sys/class/leds/red/pan_led
+    chmod 0660 /sys/class/leds/green/pan_led
+
+
+    chown system radio /sys/class/leds/blue/pan_led
+    chown system radio /sys/class/leds/red/pan_led
+    chown system radio /sys/class/leds/green/pan_led
+    chown system system /sys/class/leds/red/brightness
+    chown system system /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/blue/brightness
+    chown system system /sys/class/leds/red/device/grpfreq
+    chown system system /sys/class/leds/red/device/grppwm
+    chown system system /sys/class/leds/red/device/blink
+    
+    chown system system /dev/touch_monitor
 
 # Export GPIO56 for fusion targets to enable/disable hub
 service usbhub_init /system/bin/usbhub_init
@@ -454,6 +479,26 @@ service usbhub_init /system/bin/usbhub_init
 on property:init.svc.surfaceflinger=stopped
     stop ppd
     stop hdmid
+
+# corefile limit and ETB enabling
+on property:persist.debug.trace=1
+    mkdir /data/core 0777 root root
+    write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/bus/coresight/devices/coresight-etm0/enable 0
+    write /sys/bus/coresight/devices/coresight-etm1/enable 0
+    write /sys/bus/coresight/devices/coresight-etm2/enable 0
+    write /sys/bus/coresight/devices/coresight-etm3/enable 0
+    write /sys/bus/coresight/devices/coresight-etm0/reset 1
+    write /sys/bus/coresight/devices/coresight-etm1/reset 1
+    write /sys/bus/coresight/devices/coresight-etm2/reset 1
+    write /sys/bus/coresight/devices/coresight-etm3/reset 1
+    write /sys/bus/coresight/devices/coresight-etm0/enable 1
+    write /sys/bus/coresight/devices/coresight-etm1/enable 1
+    write /sys/bus/coresight/devices/coresight-etm2/enable 1
+    write /sys/bus/coresight/devices/coresight-etm3/enable 1
 
 on property:ro.board.platform=msm7630_fusion
     start usbhub_init
@@ -473,7 +518,12 @@ on property:vold.decrypt=trigger_restart_framework
 
 service cnd /system/bin/cnd
     class late_start
-    socket cnd stream 666 root radio
+    socket cnd stream 660 root inet
+
+service irsc_util /system/bin/logwrapper /system/bin/irsc_util "/etc/sec_config"
+    class main
+    user root
+    oneshot
 
 service rmt_storage /system/bin/rmt_storage
     class late_start
@@ -653,12 +703,6 @@ service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
     disabled
     oneshot
 
-service wiperiface /system/bin/wiperiface
-    class late_start
-    user gps
-    group gps qcom_oncrpc net_raw
-    oneshot
-
 service gpsone_daemon /system/bin/gpsone_daemon
     class late_start
     user gps
@@ -695,6 +739,12 @@ service xtwifi_client /system/bin/xtwifi-client
     group net_admin wifi inet gps
     disabled
 
+service lowi-server /system/bin/lowi-server
+    class late_start
+    user gps
+    group gps net_admin wifi inet
+    disabled
+
 service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
     class late_start
     user root
@@ -722,6 +772,14 @@ on property:drmdiag.load=1
 on property:drmdiag.load=0
     stop drmdiag
 
+# pantech server
+service pantech_server /system/bin/pantech_server
+    class main
+    socket skytest stream 666
+    socket pantech_debug_sock stream 666
+    socket pantech_pm_sock stream 666
+    user root
+    
 service qcom-sh /system/bin/sh /init.qcom.sh
     class late_start
     user root
@@ -741,10 +799,17 @@ service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
     user root
     disabled
     oneshot
-
+    
 on property:sys.boot_completed=1
     start qcom-post-boot
     start preinstall
+    write /sys/block/mmcblk0/queue/scheduler row
+
+service atfwd /system/bin/ATFWD-daemon
+    class late_start
+    user system
+    group system radio
+    onrestart /system/bin/log -t RIL-ATFWD -p w "ATFWD daemon restarted"
 
 service hdmid /system/bin/hdmid
     class late_start
@@ -829,73 +894,69 @@ service ssr_diag /system/bin/ssr_diag
     user system
     group system
 
-##Disable boot timeout for external modems.
-#on property:persist.sys.mdm.timeout_disable=1
-#    write /sys/module/mdm_common/parameters/disable_boot_timeout 1
+#Disable boot timeout for external modems.
+on property:persist.sys.mdm.timeout_disable=1
+    write /sys/module/mdm_common/parameters/disable_boot_timeout 1
 # Limit to SoC reset (1) and independent SSR (3)
 on property:persist.sys.ssr.restart_level=1
     write /sys/module/subsystem_restart/parameters/restart_level 1
 on property:persist.sys.ssr.restart_level=3
     write /sys/module/subsystem_restart/parameters/restart_level 3
     
+on property:persist.radio.sglte_sim_active=true
+    kill qmiproxy 15
+on property:persist.radio.sglte_sim_active=false
+    kill qmiproxy 15
+on property:persist.radio.sglte_csfb=true
+    kill qmiproxy 15
+on property:persist.radio.sglte_csfb=false
+    kill qmiproxy 15
+    
+service diag_mdlog_start /system/bin/diag_mdlog
+    class late_start
+    user sdcard_rw
+    group system qcom_diag sdcard_rw sdcard_r media_rw
+    disabled
+    oneshot
+
+service diag_mdlog_stop /system/bin/diag_mdlog -k
+    class late_start
+    user sdcard_rw
+    group system qcom_diag sdcard_rw sdcard_r media_rw
+    disabled
+    oneshot
+#20140124 LS4_WIFI Warfs WiFi Porting KiKat
+# FEATURE_PANTECH_WLAN_DEBUG_LEVEL_FRAMEWORK 20121022 thkim_wifi add for wifi log --> 
+service pan_log /system/bin/pan_log
+    class late_start
+    user root
+    group system
+    disabled
+    oneshot
+# FEATURE_PANTECH_WLAN_DEBUG_LEVEL_FRAMEWORK 20121022 thkim_wifi add for wifi log <--  
+# FEATURE_PANTECH_WLAN, 20111018 thkim_wifi add for wifi ftm mode --> 
+# Pantech only, 2012-04-02, ymlee_p11019, On Auto test mode, 5G DPD enabled, added "oneshot" ++++
+service ftm_ptt /system/bin/ftm_ptt -d
+    class late_start #FEATURE_SKY_DATA_ENCRYPTION 
+    user root
+    group radio
+    disabled
+    oneshot
+
+on property:ftm_ptt_start=1
+    start ftm_ptt
+
+on property:ftm_ptt_start=0
+    stop ftm_ptt
+# FEATURE_PANTECH_WLAN, 20111018 thkim_wifi add for wifi ftm mode <--
 # [FEATURE_LGU_CP_UICC_SUPPORT_NFC]
 service skypd /system/bin/skypd
    class main
    user system
    group radio system shell
    
-## FEATURE_PANTECH_WLAN_DEBUG_LEVEL_FRAMEWORK 20121022 thkim_wifi add for wifi log --> 
-#service pan_log /system/bin/pan_log
-#    class late_start
-#    user root
-#    group system
-#    disabled
-#    oneshot
-## FEATURE_PANTECH_WLAN_DEBUG_LEVEL_FRAMEWORK 20121022 thkim_wifi add for wifi log <--       
-
-## 2010-12-04 octopusy [FEATURE_LGU_CP_MANAGER_DAEMON_INTERFACE]
-#service cpmgrif /system/bin/cpmgrif
-#    class main
-#    user radio
-#    group radio system qcom_oncrpc shell
-## octopusy END
-
-## 2012-06-28 Jake.Lee [FEATURE_LGU_CP_F3_TRACE]
-#service dmmond /system/bin/dmmond
-#    class main
-#    user root
-#    group radio shell
-
-## [FEATURE_LGU_CP_LTE_UPLUS_KNIGHT_WDIAG]
-#service ukd /system/bin/ukd
-#   class main
-#   user system
-#   group radio system shell
-
-## LS3_WiFi_PARKJH, 20120919, add for wifi ftm mode +++
-## 20111018 thkim_wifi add for wifi ftm mode --> 
-## Pantech only, 2012-04-02, ymlee_p11019, On Auto test mode, 5G DPD enabled, added "oneshot" ++++
-#service ftm_ptt /system/bin/ftm_ptt -d
-#    class late_start #FEATURE_SKY_DATA_ENCRYPTION 
-#    user root
-#    group radio
-#    disabled
-#    oneshot
-
-#on property:ftm_ptt_start=1
-#    start ftm_ptt
-
-#on property:ftm_ptt_start=0
-#    stop ftm_ptt
-## 20111018 thkim_wifi add for wifi ftm mode <--
-## LS3_WiFi_PARKJH, 20120919, add for wifi ftm mode --- 
 
 
-## Pantech server
-#service pantech_server /system/bin/pantech_server
-#	class main
-#	socket skytest stream 666
-#	user root
 
 # Setting default property , LS5 p13120
 service usb_manager /system/bin/usb_manager
@@ -908,47 +969,4 @@ service conn_init /system/bin/logwrapper /system/bin/conn_init
     user root
     group system wifi radio root
     oneshot
-
-# Powersave
-on property:sys.perf.profile=0
-    stop mpdecision
-    write /sys/module/intelli_plug/parameters/intelli_plug_active 1
-    write /sys/module/intelli_plug/parameters/eco_mode_active 1
-    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 320000000   
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intellidemand
-    write /sys/class/kgsl/kgsl-3d0/pwrscale/policy_config/trustzone/governor simple
-	write /sys/kernel/mm/uksm/run 0
-
-# Balanced
-on property:sys.perf.profile=1
-    stop mpdecision
-    write /sys/module/intelli_plug/parameters/intelli_plug_active 1
-    write /sys/module/intelli_plug/parameters/eco_mode_active 0
-    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 400000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor intellidemand
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor intellidemand
-    write /sys/class/kgsl/kgsl-3d0/pwrscale/policy_config/trustzone/governor simple
-	write /sys/kernel/mm/uksm/run 0
-
-# High performance
-on property:sys.perf.profile=2
-    stop mpdecision
-    write /sys/module/intelli_plug/parameters/intelli_plug_active 0
-    write /sys/module/intelli_plug/parameters/eco_mode_active 0
-    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 533000000
-    write /sys/devices/system/cpu/cpu0/online 1
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor performance
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor performance
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor performance
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor performance
-    write /sys/class/kgsl/kgsl-3d0/pwrscale/policy_config/trustzone/governor performance
-	write /sys/kernel/mm/uksm/run 1
 

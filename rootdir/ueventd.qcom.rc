@@ -1,4 +1,4 @@
-# Copyright (c) 2012, The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,8 @@
 /dev/rtc0                 0600   system     system
 /dev/smd0                 0660   system     system
 /dev/smd4                 0660   system     system
+/dev/smd5                 0660   system     system
+/dev/smd6                 0660   system     system
 /dev/smd_cxm_qmi          0640   radio      radio
 /dev/smd7                 0660   bluetooth  bluetooth
 /dev/radio0               0640   system   system
@@ -115,6 +117,9 @@
 /dev/msm_rotator          0660   system     system
 /dev/hw_random            0660   system     system
 
+# pantech usb
+/dev/obex                 0660   system     system
+
 #permissions for audio
 /dev/msm_qcelp            0660   system     audio
 /dev/msm_evrc             0660   system     audio
@@ -163,27 +168,23 @@
 # VoLTE/VT Direct ADSP device
 /dev/sky_direct_adsp      0666   system     system
 
-# Begin Immersion changes 
-/dev/tspdrv               0666   root       root
 # End Immersion changes
 #permissions for sensors
 /dev/msm_dsps             0660  system       system
+
+#FEATURE_PS_WIFI_COM_PREF_LOGGING
+/dev/logw/*                0660   root       system
 
 # native sensors
 /sys/devices/i2c-12/12-*  pollrate_ms 0664 system system
 /sys/devices/i2c-12/12-*  enable  0664 system system
 /sys/devices/i2c-12/12-*  poll_delay 0664 system system
 
-/dev/ks_bridge		  	  0660   system     system
-/dev/efs_bridge           0660   system     system
+# wlan
+/dev/wcnss_wlan           0660   system     system
+/dev/wcnss_ctrl           0660   system     system
 
-/dev/block/mmcblk0p18     0660   root     system
-
-# MDM devices
-/dev/block/mmcblk0p20     0660	system	    radio
-/dev/block/mmcblk0p21     0660	system	    radio
-/dev/block/mmcblk0p22     0660	system	    radio
-# Not sure if this will work properly
-/dev/block/platform/msm_sdcc.1/by-name/m9kefs1     0660	system	    radio
-/dev/block/platform/msm_sdcc.1/by-name/m9kefs2     0660	system	    radio
-/dev/block/platform/msm_sdcc.1/by-name/m9kefs3     0660	system	    radio
+# UIO devices
+/dev/uio0                 0660   system     system
+/dev/uio1                 0660   system     system
+/dev/uio2                 0660   system     system
