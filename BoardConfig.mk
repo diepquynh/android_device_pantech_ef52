@@ -52,7 +52,7 @@ USE_CAMERA_STUB := true
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 
 #Custom hardware
-BOARD_HARDWARE_CLASS := device/pantech/ef51l/cmhw
+BOARD_HARDWARE_CLASS := device/pantech/ef52l/cmhw
 
 # BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
 
