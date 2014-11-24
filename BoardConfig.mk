@@ -16,7 +16,7 @@
 
 include device/pantech/msm8960-common/BoardConfigCommon.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef49k/include
+TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef51l/include
 
 BOARD_KERNEL_CMDLINE := console=NULL,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 loglevel=0 vmalloc=0x12c00000
 
@@ -27,9 +27,9 @@ BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
-TARGET_BOOTLOADER_NAME=ef49k
+TARGET_BOOTLOADER_NAME=ef51l
 
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef49k/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef51l/bluetooth
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
@@ -40,22 +40,22 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_RECOVERY_FSTAB = device/pantech/ef49k/fstab.qcom
+TARGET_RECOVERY_FSTAB = device/pantech/ef51l/fstab.qcom
 
--include vendor/pantech/ef49k/BoardConfigVendor.mk
+-include vendor/pantech/ef51l/BoardConfigVendor.mk
 
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 #camera
-BOARD_CAMERA_EXTRA_PARAMETERS_PATH := device/pantech/ef49k/camera
+BOARD_CAMERA_EXTRA_PARAMETERS_PATH := device/pantech/ef51l/camera
 USE_CAMERA_STUB := true
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 
 #Custom hardware
-BOARD_HARDWARE_CLASS := device/pantech/ef49k/cmhw
+BOARD_HARDWARE_CLASS := device/pantech/ef51l/cmhw
 
 BOARD_SEPOLICY_DIRS += \
-        device/pantech/ef49k/sepolicy
+        device/pantech/ef51l/sepolicy
 
 BOARD_SEPOLICY_UNION := \
         app.te \

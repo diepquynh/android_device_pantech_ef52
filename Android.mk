@@ -23,7 +23,7 @@
 # *not* include it on all devices, so it is safe even with hardware-specific
 # components.
 
-ifneq ($(filter ef49k,$(TARGET_DEVICE)),)
+ifneq ($(filter ef51l,$(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 

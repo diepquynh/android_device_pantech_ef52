@@ -15,4 +15,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/ef49k.mk
+    $(LOCAL_DIR)/ef51l.mk

@@ -23,13 +23,13 @@ PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
-PRODUCT_NAME := full_ef49k
-PRODUCT_DEVICE := ef49k
+PRODUCT_NAME := full_ef51l
+PRODUCT_DEVICE := ef51l
 PRODUCT_BRAND := PANTECH
 PRODUCT_MODEL := VEGA R3
 PRODUCT_MANUFACTURER := PANTECH
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/pantech/ef49k/device.mk)
-$(call inherit-product-if-exists, vendor/pantech/ef49k/ef49k-vendor.mk)
+$(call inherit-product, device/pantech/ef51l/device.mk)
+$(call inherit-product-if-exists, vendor/pantech/ef51l/ef51l-vendor.mk)
