@@ -54,29 +54,6 @@ COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 #Custom hardware
 BOARD_HARDWARE_CLASS := device/pantech/ef51l/cmhw
 
-BOARD_SEPOLICY_DIRS += \
-        device/pantech/ef51l/sepolicy
-
-BOARD_SEPOLICY_UNION := \
-        app.te \
-        bluetooth.te \
-        device.te \
-        domain.te \
-        drmserver.te \
-        file.te \
-        file_contexts \
-        hci_init.te \
-        init_shell.te \
-        keystore.te \
-        mediaserver.te \
-        kickstart.te \
-        nfc.te \
-        rild.te \
-        surfaceflinger.te \
-        system.te \
-        ueventd.te \
-        wpa.te
-
 # BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
 
 #TWRP config
