@@ -40,7 +40,7 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_RECOVERY_FSTAB = device/pantech/ef51l/fstab.qcom
+TARGET_RECOVERY_FSTAB = device/pantech/ef52l/fstab.qcom
 
 -include vendor/pantech/ef51l/BoardConfigVendor.mk
 
