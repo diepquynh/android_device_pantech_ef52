@@ -20,7 +20,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52l/include
 
 BOARD_KERNEL_CMDLINE := console=NULL,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 loglevel=0 vmalloc=0x12c00000 androidboot.selinux=permissive
 
-TARGET_KERNEL_SOURCE := kernel/pantech/ef52l
+TARGET_KERNEL_SOURCE := kernel/pantech/android_kernel_qcom_msm
 TARGET_KERNEL_CONFIG := cyanogenmod_a870_defconfig
 
 BOARD_HAVE_BLUETOOTH_QCOM := true
