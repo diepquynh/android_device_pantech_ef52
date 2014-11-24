@@ -34,29 +34,29 @@ PRODUCT_PACKAGES += \
 	lights.qcom
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/WCNSS_cfg.dat:system/vendor/firmware/wlan/prima/WCNSS_cfg.dat \
-	$(LOCAL_PATH)/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
-	$(LOCAL_PATH)/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin
+	$(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/vendor/firmware/wlan/prima/WCNSS_cfg.dat \
+	$(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
+	$(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin
 
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/mixer_paths.xml:system/etc/mixer_paths.xml
+        $(LOCAL_PATH)/configs/mixer_paths.xml:system/etc/mixer_paths.xml
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/thermald-qcom.conf:system/etc/thermald.conf
 
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/initlogo.rle:root/initlogo.rle888 \
-	$(LOCAL_PATH)/init.qcom.rc:root/init.qcom.rc \
-        $(LOCAL_PATH)/init.qcom.sh:root/init.qcom.sh \
-	$(LOCAL_PATH)/fstab.qcom:root/fstab.qcom \
-	$(LOCAL_PATH)/ueventd.qcom.rc:root/ueventd.qcom.rc
+        $(LOCAL_PATH)/rootdir/initlogo.rle:root/initlogo.rle888 \
+	$(LOCAL_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
+        $(LOCAL_PATH)/rootdir/init.qcom.sh:root/init.qcom.sh \
+	$(LOCAL_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
+	$(LOCAL_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
 
 # Prebuilt kl and kcm keymaps
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/apq8064-tabla-snd-card_Button_Jack.kl:system/usr/keylayout/apq8064-tabla-snd-card_Button_Jack.kl \
-	$(LOCAL_PATH)/keypad_8064.kl:system/usr/keylayout/keypad_8064.kl \
-	$(LOCAL_PATH)/apq8064-tabla-snd-card_Button_Jack.kcm:system/usr/keychars/apq8064-tabla-snd-card_Button_Jack.kcm \
-	$(LOCAL_PATH)/keypad_8064.kcm:system/usr/keychars/keypad_8064.kcm
+	$(LOCAL_PATH)/usr/apq8064-tabla-snd-card_Button_Jack.kl:system/usr/keylayout/apq8064-tabla-snd-card_Button_Jack.kl \
+	$(LOCAL_PATH)/usr/keypad_8064.kl:system/usr/keylayout/keypad_8064.kl \
+	$(LOCAL_PATH)/usr/apq8064-tabla-snd-card_Button_Jack.kcm:system/usr/keychars/apq8064-tabla-snd-card_Button_Jack.kcm \
+	$(LOCAL_PATH)/usr/keypad_8064.kcm:system/usr/keychars/keypad_8064.kcm
 
 #These are hardware-specific features
 PRODUCT_COPY_FILES += \
