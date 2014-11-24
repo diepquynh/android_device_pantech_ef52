@@ -101,6 +101,7 @@ bin/sensorservice
 lib/libpantech_qcci.so
 lib/libpantech_wifi_mac_backup.so
 lib/libpantech_wifi_mac_rw.so
+vendor/lib/libtime_genoff.so
 
 #pantech camera
 lib/libOlaEngine.so
