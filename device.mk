@@ -42,7 +42,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/configs/mixer_paths.xml:system/etc/mixer_paths.xml
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/thermald-qcom.conf:system/etc/thermald.conf
+	$(LOCAL_PATH)/configs/thermald-qcom.conf:system/etc/thermald.conf
 
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/initlogo.rle:root/initlogo.rle888 \
