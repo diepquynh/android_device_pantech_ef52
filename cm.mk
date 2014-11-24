@@ -15,7 +15,7 @@ $(call inherit-product, device/pantech/ef52l/ef52l.mk)
 PRODUCT_DEVICE := ef52l
 PRODUCT_NAME := cm_ef52l
 PRODUCT_BRAND := pantech
-PRODUCT_MODEL := VEGA R3
+PRODUCT_MODEL := VEGA Iron
 PRODUCT_MANUFACTURER := PANTECH
 
 # Enable Torch
