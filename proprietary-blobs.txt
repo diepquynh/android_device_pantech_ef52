@@ -18,7 +18,12 @@ bin/qmiproxy
 bin/rild
 bin/mm-qcamera-daemon
 bin/mpdecision
-bin/sensorservice
+bin/ATFWD-daemon
+bin/cnd
+bin/diag_klog
+bin/diag_mdlog
+bin/gsiff_daemon
+bin/qseecomd
 
 #Audio
 lib/libacdbloader.so
@@ -56,6 +61,9 @@ vendor/lib/libdiag.so
 lib/libril-qc-qmi-1.so
 lib/libril-qcril-hook-oem.so
 lib/libril.so
+lib/libcneutils.so
+lib/libuca-ril.so
+lib/libuca-ril-qmi.so
 
 #Sensors
 lib/libsensor1.so
@@ -68,7 +76,6 @@ lib/libdsutils.so
 vendor/lib/libqmi_cci.so
 lib/libqmi_client_qmux.so
 vendor/lib/libqmi_common_so.so
-vendor/lib/libqmi_csi.so
 lib/libqmi_csvt_srvc.so
 vendor/lib/libqmi_encdec.so
 lib/libqmiservices.so
@@ -85,6 +92,12 @@ lib/libdrmtime.so
 lib/libdss.so
 lib/libQSEEComAPI.so
 lib/libWVphoneAPI.so
+lib/libqc-opt.so
+lib/libcneqmiutils.so
+lib/libcneutils.so
+lib/libcneapiclient.so
+lib/libqmissa.so
+lib/libdiagdpl.so
 
 #NFC
 vendor/firmware/libpn544_fw.so

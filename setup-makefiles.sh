@@ -24,7 +24,7 @@ MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
 
 # Prebuilt libraries that are needed to build open-source libraries
 PRODUCT_COPY_FILES := \\
-    $OUTDIR/proprietary/vendor/lib/libtime_genoff.so:obj/lib/libtime_genoff.so
+    $OUTDIR/proprietary/lib/libtime_genoff.so:obj/lib/libtime_genoff.so
 
 PRODUCT_COPY_FILES += \\
 EOF
