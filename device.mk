@@ -51,6 +51,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/initlogo.rle:root/initlogo.rle888 \
 	$(LOCAL_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
         $(LOCAL_PATH)/rootdir/init.qcom.sh:root/init.qcom.sh \
+        $(LOCAL_PATH)/rootdir/init.target.rc:root/init.target.rc \
 	$(LOCAL_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
 	$(LOCAL_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
 
