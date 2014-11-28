@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2009-2012, Code Aurora Forum. All rights reserved.
+# Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -8,7 +8,7 @@
 #     * Redistributions in binary form must reproduce the above copyright
 #       notice, this list of conditions and the following disclaimer in the
 #       documentation and/or other materials provided with the distribution.
-#     * Neither the name of Code Aurora nor
+#     * Neither the name of The Linux Foundation nor
 #       the names of its contributors may be used to endorse or promote
 #       products derived from this software without specific prior written
 #       permission.
@@ -54,12 +54,6 @@ failed ()
 program_bdaddr ()
 {
   /system/bin/btnvtool -O
-  BDADDR = `getprop persist.bt.address`
-  if [ ! $BDADDR == "" ] ;then
-  	echo $BDADDR > /persist/bdaddr
-  else
-  	echo "12.34.54.34.56.77" > /persist/bdaddr
-  fi
   logi "Bluetooth Address programmed successfully"
 }
 
@@ -78,8 +72,9 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.opp true
         setprop ro.qualcomm.bluetooth.ftp true
         setprop ro.qualcomm.bluetooth.nap false
-        setprop ro.qualcomm.bluetooth.sap false
-        setprop ro.qualcomm.bluetooth.dun false
+        setprop ro.bluetooth.sap false
+        setprop ro.bluetooth.dun false
+	setprop bluetooth.a2dp.sink.enabled false
         # For MPQ as baseband is same for both
         case $soc_hwid in
           "130")
@@ -92,7 +87,7 @@ config_bt ()
               setprop ro.qualcomm.bluetooth.hsp false
               setprop ro.qualcomm.bluetooth.hfp false
               setprop ro.qualcomm.bluetooth.pbap true
-              setprop ro.qualcomm.bluetooth.map true
+              setprop ro.qualcomm.bluetooth.map false
               ;;
         esac
         ;;
@@ -102,11 +97,18 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.hsp true
         setprop ro.qualcomm.bluetooth.pbap true
         setprop ro.qualcomm.bluetooth.ftp true
-        setprop ro.qualcomm.bluetooth.map true
+        setprop ro.qualcomm.bluetooth.map false
         setprop ro.qualcomm.bluetooth.nap true
-        setprop ro.qualcomm.bluetooth.sap true
-        setprop ro.qualcomm.bluetooth.dun false
+        setprop ro.bluetooth.sap false
+	setprop bluetooth.a2dp.sink.enabled false
+        case  $soc_hwid in
+            "109")
+                logi "Disabling BT-DUN for Fusion3"
+                setprop ro.bluetooth.dun false
+            ;;
+        esac
         ;;
+# 20140128 pooyi not supported sap, dun and map
     "msm")
         setprop ro.qualcomm.bluetooth.opp true
         setprop ro.qualcomm.bluetooth.hfp true
@@ -114,14 +116,15 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.pbap true
         setprop ro.qualcomm.bluetooth.ftp true
         setprop ro.qualcomm.bluetooth.nap true
-        setprop ro.qualcomm.bluetooth.sap true
-        setprop ro.qualcomm.bluetooth.dun true
+        setprop ro.bluetooth.sap false
+        setprop ro.bluetooth.dun false
+        setprop bluetooth.a2dp.sink.enabled false
         case $btsoc in
           "ath3k")
               setprop ro.qualcomm.bluetooth.map false
               ;;
           *)
-              setprop ro.qualcomm.bluetooth.map true
+              setprop ro.qualcomm.bluetooth.map false
               ;;
         esac
         ;;
@@ -133,24 +136,44 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.ftp true
         setprop ro.qualcomm.bluetooth.map true
         setprop ro.qualcomm.bluetooth.nap true
-        setprop ro.qualcomm.bluetooth.sap true
-        setprop ro.qualcomm.bluetooth.dun true
+        setprop ro.bluetooth.sap true
+        setprop ro.bluetooth.dun true
         ;;
   esac
 
   #Enable Bluetooth Profiles specific to target Dynamically
   case $target in
     "msm8960")
-       if [ "$btsoc" != "ath3k" ] && [ "$socid" != "130" ]
+       if [ "$btsoc" != "ath3k" ] && [ "$soc_hwid" != "130" ]
        then
            setprop ro.bluetooth.hfp.ver 1.6
            setprop ro.qualcomm.bt.hci_transport smd
-           setprop qcom.bluetooth.soc $btsoc
+       fi
+       ;;
+    "msm8974")
+       if [ "$btsoc" != "ath3k" ]
+       then
+           setprop ro.bluetooth.hfp.ver 1.6
+           setprop ro.qualcomm.bt.hci_transport smd
        fi
        ;;
     *)
        ;;
   esac
+
+if [ -f /system/etc/bluetooth/stack.conf ]; then
+stack=`cat /system/etc/bluetooth/stack.conf`
+fi
+
+case "$stack" in
+    "bluez")
+	   logi "Bluetooth stack is $stack"
+	   setprop ro.qc.bluetooth.stack $stack
+        ;;
+    *)
+	   logi "Bluetooth stack is Bluedroid"
+        ;;
+esac
 
 }
 
@@ -201,6 +224,7 @@ shift $(($OPTIND-1))
 
 #Selectively Disable sleep
 BOARD=`getprop ro.board.platform`
+STACK=`getprop ro.qc.bluetooth.stack`
 
 # BR/EDR & LE power class configurations
 POWER_CLASS=`getprop qcom.bt.dev_power_class`
@@ -209,6 +233,16 @@ LE_POWER_CLASS=`getprop qcom.bt.le_dev_pwr_class`
 #find the transport type
 TRANSPORT=`getprop ro.qualcomm.bt.hci_transport`
 logi "Transport : $TRANSPORT"
+case $STACK in
+    "bluez")
+       logi "** Bluez stack **"
+    ;;
+    *)
+       logi "** Bluedroid stack **"
+       setprop bluetooth.status off
+    ;;
+esac
+
 
 case $POWER_CLASS in
   1) PWR_CLASS="-p 0" ;
@@ -234,14 +268,22 @@ case $LE_POWER_CLASS in
      logi "LE Power Class: To override, Before turning BT ON; setprop qcom.bt.le_dev_pwr_class <1 or 2 or 3>";;
 esac
 
-#echo 0 > /sys/module/hci_smd/parameters/hcismd_set
-setprop bluetooth.status off
-
 eval $(/system/bin/hci_qcomm_init -e $PWR_CLASS $LE_PWR_CLASS && echo "exit_code_hci_qcomm_init=0" || echo "exit_code_hci_qcomm_init=1")
 
 case $exit_code_hci_qcomm_init in
   0) logi "Bluetooth QSoC firmware download succeeded, $BTS_DEVICE $BTS_TYPE $BTS_BAUD $BTS_ADDRESS";;
-  *) failed "Bluetooth QSoC firmware download failed" $exit_code_hci_qcomm_init;;
+  *) failed "Bluetooth QSoC firmware download failed" $exit_code_hci_qcomm_init;
+     case $STACK in
+         "bluez")
+            logi "** Bluez stack **"
+         ;;
+         *)
+            logi "** Bluedroid stack **"
+            setprop bluetooth.status off
+        ;;
+     esac
+
+     exit $exit_code_hci_qcomm_init;;
 esac
 
 # init does SIGTERM on ctl.stop for service
@@ -249,12 +291,29 @@ trap "kill_hciattach" TERM INT
 
 case $TRANSPORT in
     "smd")
-        #echo 1 > /sys/module/hci_smd/parameters/hcismd_set
-        setprop bluetooth.status on
+       case $STACK in
+           "bluez")
+              logi "** Bluez stack **"
+              echo 1 > /sys/module/hci_smd/parameters/hcismd_set
+           ;;
+           *)
+              logi "** Bluedroid stack **"
+              setprop bluetooth.status on
+           ;;
+       esac
      ;;
      *)
         logi "start hciattach"
         start_hciattach
+        case $STACK in
+            "bluez")
+               logi "Bluetooth is turning On with Bluez stack "
+            ;;
+            *)
+               logi "** Bluedroid stack **"
+               setprop bluetooth.status on
+            ;;
+        esac
 
         wait $hciattach_pid
         logi "Bluetooth stopped"
