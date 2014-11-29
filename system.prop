@@ -135,3 +135,5 @@ debug.hwui.render_dirty_regions=false
 debug.hwui.profile=false
 debug.hwui.show_dirty_regions=false
 debug.hwui.show_non_rect_clip=false
+
+ro.vendor.extension_library=/lib/libqc-opt.so

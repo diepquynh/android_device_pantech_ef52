@@ -15,7 +15,6 @@ bin/thermald
 bin/rmt_storage
 bin/qmuxd
 bin/qmiproxy
-bin/rild
 bin/mm-qcamera-daemon
 bin/mpdecision
 bin/ATFWD-daemon
@@ -32,6 +31,7 @@ lib/libacdbloader.so
 lib/libaudioalsa.so
 lib/libalsautils.so
 lib/libacdbloader.so
+lib/libadsprpc.so
 
 #Camera
 lib/libmmjpeg.so
@@ -60,8 +60,6 @@ lib/libmmipl.so
 vendor/lib/libdiag.so
 lib/libril-qc-qmi-1.so
 lib/libril-qcril-hook-oem.so
-lib/libril.so
-lib/libcneutils.so
 lib/libuca-ril.so
 lib/libuca-ril-qmi.so
 
@@ -74,6 +72,7 @@ lib/hw/sensors.msm8960.so
 lib/libidl.so
 lib/libdsutils.so
 vendor/lib/libqmi_cci.so
+vendor/lib/libqmi_csi.so
 lib/libqmi_client_qmux.so
 vendor/lib/libqmi_common_so.so
 lib/libqmi_csvt_srvc.so
@@ -98,6 +97,13 @@ lib/libcneutils.so
 lib/libcneapiclient.so
 lib/libqmissa.so
 lib/libdiagdpl.so
+
+#NewTest
+vendor/lib/libquipc_os_api.so
+vendor/lib/libquipc_ulp_adapter.so
+lib/libualutil.so
+lib/libdsucsd.so
+lib/libxml2.so
 
 #NFC
 vendor/firmware/libpn544_fw.so
@@ -138,11 +144,24 @@ lib/libpantech_wifi_mac_rw.so
 
 lib/libtime_genoff.so
 lib/libNimsWrap.so
+lib/libcneutils.so
 lib/libcnefeatureconfig.so
 
 #kickstart
 lib/libsky_rawdata.so
 lib/libskytestclient.so
+lib/libsky_access_nand.so
+lib/libsky_avclog.so
+lib/libsky_bluetooth.so
+lib/libsky_common.so
+lib/libsky_dload.so
+lib/libsky_ctrl_drv.so
+lib/libsky_img_verify.so
+lib/libskymotioncore.so
+lib/libsky_md5.so
+lib/libskyreset.so
+lib/libsky_rftest.so
+lib/libsky_wifi.so
 
 #compass lib
 lib/libyas530.so
