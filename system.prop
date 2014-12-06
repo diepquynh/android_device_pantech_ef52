@@ -23,7 +23,7 @@ dalvik.vm.heapsize=36m
 debug.enable.wl_log=1
 persist.hwc.mdpcomp.enable=true
 debug.mdpcomp.logs=0
-ro.telephony.ril_class=SkyQualcommUiccRIL
+ro.telephony.ril_class=QualcommSharedRIL
 #FEATURE_SKT_DS_CHANGE_MTU 
 persist.data_netmgrd_mtu=1440 
 #endif
