@@ -23,6 +23,8 @@ bin/diag_klog
 bin/diag_mdlog
 bin/gsiff_daemon
 bin/qseecomd
+bin/rild
+bin/irsc_util
 
 #Audio
 lib/libacdbloader.so
@@ -56,17 +58,35 @@ lib/libmorpho_easy_hdr.so
 lib/libVDFaceAPI.so
 lib/libmmipl.so
 
+
 #Ril
 vendor/lib/libdiag.so
 lib/libril-qc-qmi-1.so
 lib/libril-qcril-hook-oem.so
 lib/libuca-ril.so
 lib/libuca-ril-qmi.so
+lib/libril.so
 
 #Sensors
 lib/libsensor1.so
 lib/libsensor_reg.so
 lib/hw/sensors.msm8960.so
+
+#Bluetooth
+vendor/lib/libbtnv.so
+vendor/lib/libbt-vendor.so
+
+#GPS
+bin/gsiff_daemon
+lib/libloc_ds_api.so
+lib/libloc_api_v02.so
+lib/libloc_core.so
+lib/libloc_eng.so
+lib/libgps.utils.so
+vendor/lib/libgeofence.so
+vendor/lib/libizat_core.so
+vendor/lib/libquipc_os_api.so
+vendor/lib/libquipc_ulp_adapter.so
 
 #Qualcomm
 lib/libidl.so
@@ -80,30 +100,38 @@ vendor/lib/libqmi_encdec.so
 lib/libqmiservices.so
 lib/libqmi.so
 lib/libqcci_legacy.so
+lib/libqcci_adc.so
+lib/libqctdspsreg.so
+lib/libqctdspstest.so
 lib/libdsi_netctrl.so
 lib/libqdi.so
 lib/libnetmgr.so
 lib/libqdp.so
 lib/libconfigdb.so
 lib/libcsd-client.so
-lib/libdrmfs.so
-lib/libdrmtime.so
 lib/libdss.so
 lib/libQSEEComAPI.so
 lib/libWVphoneAPI.so
 lib/libqc-opt.so
-lib/libcneqmiutils.so
-lib/libcneutils.so
-lib/libcneapiclient.so
 lib/libqmissa.so
 lib/libdiagdpl.so
-
-#NewTest
-vendor/lib/libquipc_os_api.so
-vendor/lib/libquipc_ulp_adapter.so
-lib/libualutil.so
 lib/libdsucsd.so
-lib/libxml2.so
+lib/libualutil.so
+lib/librmp.so
+
+#Misc
+lib/libCommandSvc.so
+lib/libdrmdiag.so
+lib/libdsprofile.so
+lib/liboem_ssa.so
+vendor/lib/libulp2.so
+vendor/lib/libmsapm_jni.so
+vendor/lib/liblowi_client.so
+vendor/lib/libepdsp.so
+lib/libdrmdecrypt.so
+lib/libdrmfs.so
+lib/libdrmtime.so
+lib/libvendor_aka.so
 
 #NFC
 vendor/firmware/libpn544_fw.so
@@ -117,6 +145,11 @@ etc/firmware/vidc.b02
 etc/firmware/vidc.b03
 etc/firmware/vidc.mdt
 etc/firmware/vidc_1080p.fw
+etc/firmware/cyttsp_8064_mtp.hex
+etc/firmware/cyttsp_8960_cdp.hex
+etc/firmware/leia_pfp_470.fw
+etc/firmware/leia_pm4_470.fw
+etc/firmware/vidcfw.elf
 vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
@@ -131,7 +164,6 @@ vendor/lib/libc2d2_a3xx.so
 vendor/lib/libc2d2_z180.so
 vendor/lib/libllvm-a3xx.so
 vendor/lib/libllvm-arm.so
-lib/libloc_api_v02.so
 vendor/lib/libsc-a3xx.so
 vendor/lib/libsc-a2xx.so
 vendor/lib/libgsl.so
@@ -141,11 +173,15 @@ lib/libpantech_qcci.so
 lib/libpantech_wifi_mac_backup.so
 lib/libpantech_wifi_mac_rw.so
 
-
-lib/libtime_genoff.so
+#Cne
 lib/libNimsWrap.so
 lib/libcneutils.so
 lib/libcnefeatureconfig.so
+lib/libcneqmiutils.so
+lib/libcneapiclient.so
+
+#Time
+lib/libtime_genoff.so
 
 #kickstart
 lib/libsky_rawdata.so
@@ -168,3 +204,6 @@ lib/libyas530.so
 
 #media extractor
 vendor/lib/libwvm.so
+vendor/lib/libWVStreamControlAPI_L3.so
+vendor/lib/mediadrm/libwvdrmengine.so
+vendor/lib/drm/libdrmwvmplugin.so

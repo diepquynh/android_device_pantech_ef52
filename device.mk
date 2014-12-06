@@ -89,7 +89,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
 	camera.msm8960 \
 	libmmcamera_interface2 \
-	libmmcamera_interface
+	libmmcamera_interface \
+	libxml2	
 
 PRODUCT_PACKAGES += \
 	libwfcu \
