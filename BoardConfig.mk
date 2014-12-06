@@ -79,6 +79,9 @@ RECOVERY_CUSTOM_LOGO := device/pantech/msm8960-common/recovery/tek-bg-720p.png
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 RECOVERY_FSTAB_VERSION = 2
 
+#RIL
+BOARD_RIL_CLASS := ../../../device/pantech/ef52l/ril/
+
 #Multiboot config
 MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/pantech/msm8960-common/multirom/mr_init_devices.c
