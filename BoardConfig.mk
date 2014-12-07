@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-include device/pantech/msm8960-common/BoardConfigCommon.mk
+include device/pantech/ef52l-common/BoardConfigCommon.mk
 
 TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52l/include
 
@@ -59,7 +59,7 @@ BOARD_HARDWARE_CLASS := device/pantech/ef52l/cmhw
 # Vibrator
 BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef52l/vibrator/vibrator.c
 
-# BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
+# BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/ef52l-common/recovery/graphic.c
 
 #TWRP config
 DEVICE_RESOLUTION := 720x1280
@@ -76,7 +76,7 @@ TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 
 #Philz touch recovery
-RECOVERY_CUSTOM_LOGO := device/pantech/msm8960-common/recovery/tek-bg-720p.png
+RECOVERY_CUSTOM_LOGO := device/pantech/ef52l-common/recovery/tek-bg-720p.png
 
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
@@ -96,9 +96,9 @@ BOARD_USES_QCOM_LIBS := true
 
 #Multiboot config
 MR_INPUT_TYPE := type_b
-MR_INIT_DEVICES := device/pantech/msm8960-common/multirom/mr_init_devices.c
+MR_INIT_DEVICES := device/pantech/ef52l-common/multirom/mr_init_devices.c
 MR_RD_ADDR := 0x82200000
 MR_DPI := hdpi
-MR_FSTAB := device/pantech/msm8960-common/recovery/twrp.fstab
+MR_FSTAB := device/pantech/ef52l-common/recovery/twrp.fstab
 MR_KEXEC_MEM_MIN := 0x85000000
 MR_DPI_FONT := 216

@@ -19,7 +19,7 @@
 #
 # Everything in this directory will become public
 #
-$(call inherit-product, device/pantech/msm8960-common/msm8960.mk)
+$(call inherit-product, device/pantech/ef52l-common/msm8960.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
