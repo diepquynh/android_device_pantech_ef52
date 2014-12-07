@@ -56,6 +56,9 @@ COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 #Custom hardware
 BOARD_HARDWARE_CLASS := device/pantech/ef52l/cmhw
 
+# Vibrator
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef52l/vibrator/vibrator.c
+
 # BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
 
 #TWRP config
