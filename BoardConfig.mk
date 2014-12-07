@@ -85,6 +85,10 @@ RECOVERY_FSTAB_VERSION = 2
 #Ril
 BOARD_RIL_CLASS := ../../../device/pantech/ef52l/ril/
 
+# SELinux policies
+# qcom sepolicy
+include device/qcom/sepolicy/sepolicy.mk
+
 #Multiboot config
 MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/pantech/msm8960-common/multirom/mr_init_devices.c
