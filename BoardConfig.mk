@@ -80,7 +80,7 @@ BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 RECOVERY_FSTAB_VERSION = 2
 
 #Ril
-BOARD_RIL_CLASS := ../../../device/lge/f260s-common/ril/
+BOARD_RIL_CLASS := ../../../device/pantech/ef52l/ril/
 
 #Multiboot config
 MR_INPUT_TYPE := type_b
