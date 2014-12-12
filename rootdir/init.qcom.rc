@@ -785,15 +785,6 @@ service qcom-sh /system/bin/sh /init.qcom.sh
     user root
     oneshot
     
-service  preinstall  /system/bin/sh  /sbin/preinstall.sh
-	user root
-	group root
-	disabled
-	oneshot
-    
-on property:ro.mk.support=bbs.mfunz.com
-    start qcom-sh
-    
 service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
     class late_start
     user root
