@@ -30,16 +30,20 @@ static int wifi_check_qcom_cfg_files()
     // Read MAC String
     FILE *fp = NULL;
     int n = 0;
-    fp = fopen("/persist/wlmacaddr", "r");
+    fp = fopen("/dev/block/platform/msm_sdcc.1/by-name/rawdata", "r");
     if ( fp == NULL )
     {
-        ALOGD("Failed to open persist for wlan macaddr read");
-        wfc_util_qcom_check_config((unsigned char *)macAddress);
-        return 0;
+        ALOGD("Failed to open NV for wlan macaddr read");
+        return -1;
     }
     else
     {
-        n = fread(macAddress, 12, 1, fp);
+        unsigned char macbuf[6];
+        fseek(fp,0x36604,SEEK_SET);
+        n = fread(macbuf, 6, 1, fp);
+        sprintf(macAddress,"%02X%02X%02X%02X%02X%02X",
+                macbuf[0], macbuf[1], macbuf[2],
+                macbuf[3], macbuf[4], macbuf[5]);
         fclose(fp);
 
         // Write MAC String

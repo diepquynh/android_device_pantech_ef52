@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+ifneq ($(filter ef62l ef61k ef60s,$(TARGET_DEVICE)),)
+
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -22,16 +24,16 @@ LOCAL_SRC_FILES := wfc_util_fctrl.c \
                    wfc_util_common.c
 LOCAL_CFLAGS := -Wall \
                 -Werror
-LOCAL_CFLAGS += -DCONFIG_PANTECH_WLAN_WIFI_PATCH
+LOCAL_CFLAGS += -DCONFIG_SKY_WLAN_WIFI_PATCH
 ifeq ($(BOARD_HAS_QCOM_WLAN), true)
 LOCAL_SRC_FILES += wfc_util_qcom.c
-LOCAL_CFLAGS += -DCONFIG_PANTECH_WLAN_QCOM_PATCH
+LOCAL_CFLAGS += -DCONFIG_SKY_WLAN_QCOM_PATCH
 LOCAL_CFLAGS += -DWLAN_CHIP_VERSION_WCNSS
 endif
 LOCAL_SHARED_LIBRARIES := libcutils liblog
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := lge
+LOCAL_MODULE_OWNER := pantech
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -52,3 +54,4 @@ LOCAL_POST_INSTALL_CMD := \
 
 include $(BUILD_EXECUTABLE)
 
+endif

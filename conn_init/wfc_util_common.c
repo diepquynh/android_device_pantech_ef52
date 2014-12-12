@@ -121,7 +121,7 @@ void wfc_util_random_mac(unsigned char* mac_addr)
 	rand_mac=random();
 
 	#ifndef WFC_UTIL_RANDOM_MAC_HEADER
-	mac_addr[0] = (unsigned char)0x00;
+	mac_addr[0] = (unsigned char)0xd0;
 	mac_addr[1] = (unsigned char)0x11;
 	mac_addr[2] = (unsigned char)0x22;
 	#else  /* WFC_UTIL_RANDOM_MAC_HEADER */
