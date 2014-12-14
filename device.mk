@@ -91,11 +91,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     qemu.hw.mainkeys=0
 
+#Camera
 PRODUCT_PACKAGES += \
 	camera.msm8960 \
 	libmmcamera_interface2 \
 	libmmcamera_interface \
 	libxml2	
+
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/frimware/CE150F00.bin:root/CE150F00.bin \
+	$(LOCAL_PATH)/frimware/CE150F01.bin:root/CE150F01.bin \
+	$(LOCAL_PATH)/frimware/CE150F02_89.bin:root/CE150F02_89.bin \
+	$(LOCAL_PATH)/frimware/CE150F03_89.bin:root/CE150F03_89.bin 
 
 # WiFi
 PRODUCT_PACKAGES += \
