@@ -51,8 +51,7 @@ TARGET_RECOVERY_FSTAB = device/pantech/ef52l/rootdir/fstab.qcom
 
 BOARD_HAS_NO_SELECT_BUTTON := true
 
-#camera
-BOARD_CAMERA_EXTRA_PARAMETERS_PATH := device/pantech/ef52l/camera
+#Camera
 USE_CAMERA_STUB := true
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 
