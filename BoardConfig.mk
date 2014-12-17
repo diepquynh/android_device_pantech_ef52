@@ -91,6 +91,10 @@ BOARD_RIL_CLASS := ../../../device/pantech/ef52l/ril/
 # qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
 
+# Common ef52l policies
+BOARD_SEPOLICY_DIRS += \
+        device/pantech/ef52l/sepolicy
+
 #QCOM
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_USES_QCOM_BSP := true
