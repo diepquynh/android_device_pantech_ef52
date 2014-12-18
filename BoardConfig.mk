@@ -97,8 +97,6 @@ BOARD_SEPOLICY_DIRS += \
 
 #QCOM
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_USES_QCOM_BSP := true
-BOARD_USES_QCOM_LIBS := true
 
 #Multiboot config
 MR_INPUT_TYPE := type_b
