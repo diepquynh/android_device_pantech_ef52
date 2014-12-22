@@ -227,7 +227,7 @@
         <ctl name="RX5 MIX1 INP1" value="RX1" />
         <ctl name="RX5 MIX1 INP2" value="RX6" />
         <ctl name="RX6 DSM MUX" value="DSM_INV" />
-	    <ctl name="RX5 Digital Volume" value="82" />
+	<ctl name="RX5 Digital Volume" value="75"/>
     	<ctl name="SLIM TX5 MUX" value="RMIX5" />  
     </path>
 
