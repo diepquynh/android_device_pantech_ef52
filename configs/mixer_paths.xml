@@ -249,7 +249,7 @@
         <ctl name="EAR PA Gain" value="POS_2_DB" />
         <ctl name="DAC1 Switch" value="1" />
         <ctl name="SLIM TX3 MUX" value="RMIX1" />
-        <ctl name="RX1 Digital Volume" value="78" />
+        <ctl name="RX1 Digital Volume" value="75" />
     </path>
 
     <path name="handset-mic">
@@ -265,8 +265,8 @@
         <ctl name="RX2 MIX1 INP1" value="RX2" />
         <ctl name="RX2 MIX1 INP2" value="RX7" />
         <ctl name="HPHL DAC Switch" value="1" />
-        <ctl name="RX1 Digital Volume" value="85" />
-        <ctl name="RX2 Digital Volume" value="85" />
+        <ctl name="RX1 Digital Volume" value="80" />
+        <ctl name="RX2 Digital Volume" value="80" />
         <ctl name="HPHL Volume" value="6" />
         <ctl name="HPHR Volume" value="6" />
         <ctl name="SLIM TX3 MUX" value="RMIX1" />
