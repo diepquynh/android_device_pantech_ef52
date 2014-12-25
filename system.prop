@@ -19,3 +19,18 @@ DEVICE_PROVISIONED=1
 debug.sf.hw=1
 debug.egl.hw=1
 ro.telephony.ril_class=QualcommSharedRIL
+#FEATURE_SKT_DS_CHANGE_MTU 
+persist.data_netmgrd_mtu=1440 
+#endif
+
+#
+# system props for the data modules
+#
+ro.use_data_netmgrd=true
+
+#ifdef FEATURE_SKY_DS_QOS_DISABLE true->false
+persist.data.netmgrd.qos.enable=false
+#endif
+
+#system prop for setting rmnet mux mode
+persist.rmnet.mux=disabled
