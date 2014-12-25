@@ -73,8 +73,6 @@
            <item>"bt-pan"</item>
     </string-array>
 
-    <integer name="config_deviceHardwareKeys">7</integer>
-
     <!-- Default value for proximity check on screen wake
          NOTE ! - Enable for devices that have a fast response proximity sensor (ideally < 300ms)
     -->
