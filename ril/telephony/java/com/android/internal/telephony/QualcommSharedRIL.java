@@ -67,6 +67,8 @@ public class QualcommSharedRIL extends RIL implements CommandsInterface {
     private final int RIL_INT_RADIO_ON_HTC = 13;
     private int mSetPreferredNetworkType = -1;
 
+    private Message mPendingGetSimStatus;
+    
     public QualcommSharedRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
         super(context, networkMode, cdmaSubscription, instanceId);
         mSetPreferredNetworkType = -1;
@@ -771,6 +773,31 @@ public class QualcommSharedRIL extends RIL implements CommandsInterface {
             mRil.registerForIccStatusChanged(this, EVENT_ICC_STATUS_CHANGED, null);
             Message msg = obtainMessage(EVENT_RADIO_ON);
             mRil.getIccCardStatus(msg);
+        }
+    }
+
+    // Hack for Lollipop
+    // The system now queries for SIM status before radio on, resulting
+    // in getting an APPSTATE_DETECTED state. The RIL does not send an
+    // RIL_UNSOL_RESPONSE_SIM_STATUS_CHANGED message after the SIM is
+    // initialized, so delay the message until the radio is on.
+    @Override
+    public void
+    getIccCardStatus(Message result) {
+        if (mState != RadioState.RADIO_ON) {
+            mPendingGetSimStatus = result;
+        } else {
+            super.getIccCardStatus(result);
+        }
+    }
+
+    @Override
+    protected void switchToRadioState(RadioState newState) {
+        super.switchToRadioState(newState);
+
+        if (newState == RadioState.RADIO_ON && mPendingGetSimStatus != null) {
+            super.getIccCardStatus(mPendingGetSimStatus);
+            mPendingGetSimStatus = null;
         }
     }
 
