@@ -19,7 +19,7 @@
 #
 # Everything in this directory will become public
 #
-$(call inherit-product, device/pantech/ef52l-common/msm8960.mk)
+$(call inherit-product, device/pantech/apq8064-common/apq8064.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
@@ -108,7 +108,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	libwfcu \
 	wcnss_service \
-	conn_init 
 
 PRODUCT_PACKAGES += \
 	keystore.msm8960
