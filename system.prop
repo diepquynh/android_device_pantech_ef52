@@ -34,3 +34,33 @@ persist.data.netmgrd.qos.enable=false
 
 #system prop for setting rmnet mux mode
 persist.rmnet.mux=disabled
+
+#for WCDMA prefer
+ro.telephony.default_network=0
+
+ro.ril.transmitpower=true
+ro.telephony.call_ring.multiple=0
+persist.radio.adb_log_on=1
+persist.radio.add_power_save=1
+persist.radio.snapshot_disabled=1
+persist.radio.apm_sim_not_pwdn=1
+persist.radio.use_se_table_only=1
+persist.radio.fill_eons=1
+persist.radio.kickstart=on
+
+#FEATURE_LGU_DS_DISABLE_PARTIAL_RETRY
+persist.qcril.disable_retry = true
+
+#FEATURE_LGT_DS_BOOTING_POPUP
+#to display only once. even silent reset
+ril.data.bootingpopup=0
+
+# default local
+persist.sys.timezone=Asia/Bangkok
+persist.sys.language=vi
+persist.sys.region=VN
+persist.sys.country=VN
+
+#FEATURE_LGT_DS_OOS_PROPERTY_INITIAL_VAL
+#changed data connection to disconnection as soon as entering no-service
+persist.telephony.oosisdc=false
