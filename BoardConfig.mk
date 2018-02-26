@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 
-include device/pantech/apq8064-common/BoardConfigCommon.mk
+include device/pantech/msm8960-common/BoardConfigCommon.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef50l/include
+TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52l/include
 
 BOARD_KERNEL_CMDLINE := console=NULL,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 loglevel=0 vmalloc=0x16000000 maxcpus=2 androidboot.selinux=permissive
 
@@ -27,11 +27,11 @@ BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
-TARGET_BOOTLOADER_NAME=ef50l
+TARGET_BOOTLOADER_NAME=ef52l
 
-TARGET_OTA_ASSERT_DEVICE := ef48s,ef49k,ef50l,a850s,a850k,a850l,IM-A850S,IM-A850L,IM-A850K
+TARGET_OTA_ASSERT_DEVICE := ef48s,ef49k,ef52l,a870s,a870k,a870l,IM-A870S,IM-A870L,IM-A870K
 
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef50l/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef52l/bluetooth
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
@@ -45,25 +45,25 @@ WIFI_DRIVER_FW_PATH_STA := "sta"
 WIFI_DRIVER_FW_PATH_AP := "ap"
 
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_RECOVERY_FSTAB = device/pantech/ef50l/rootdir/fstab.qcom
+TARGET_RECOVERY_FSTAB = device/pantech/ef52l/rootdir/fstab.qcom
 
--include vendor/pantech/ef50l/BoardConfigVendor.mk
+-include vendor/pantech/ef52l/BoardConfigVendor.mk
 
 BOARD_HAS_NO_SELECT_BUTTON := true
 
-#Camera
+# Camera
 USE_CAMERA_STUB := true
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 
-#Custom hardware
-# BOARD_HARDWARE_CLASS := device/pantech/ef50l/cmhw
+# Custom hardware
+# BOARD_HARDWARE_CLASS := device/pantech/ef52l/cmhw
 
 # Vibrator
-BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef50l/vibrator/vibrator.c
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef52l/vibrator/vibrator.c
 
-# BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/apq8064-common/recovery/graphic.c
+# BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
 
-#TWRP config
+# TWRP config
 DEVICE_RESOLUTION := 720x1280
 RECOVERY_SDCARD_ON_DATA := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
@@ -77,32 +77,20 @@ TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 
-#Philz touch recovery
-RECOVERY_CUSTOM_LOGO := device/pantech/apq8064-common/recovery/tek-bg-720p.png
-
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 RECOVERY_FSTAB_VERSION = 2
 
-#Ril
-BOARD_RIL_CLASS := ../../../device/pantech/ef50l/ril/
+# Ril
+BOARD_RIL_CLASS := ../../../device/pantech/ef52l/ril/
 
 # SELinux policies
 # qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
 
-# Common ef50l policies
+# Common ef52l policies
 BOARD_SEPOLICY_DIRS += \
-        device/pantech/ef50l/sepolicy
+        device/pantech/ef52l/sepolicy
 
-#QCOM
+# QCOM
 BOARD_USES_QCOM_HARDWARE := true
-
-#Multiboot config
-MR_INPUT_TYPE := type_b
-MR_INIT_DEVICES := device/pantech/apq8064-common/multirom/mr_init_devices.c
-MR_RD_ADDR := 0x82200000
-MR_DPI := hdpi
-MR_FSTAB := device/pantech/apq8064-common/recovery/twrp.fstab
-MR_KEXEC_MEM_MIN := 0x85000000
-MR_DPI_FONT := 216
