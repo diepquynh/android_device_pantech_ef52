@@ -19,12 +19,12 @@
 
 #define BLUETOOTH_QTI_SW TRUE
 
-#define BTM_DEF_LOCAL_NAME   "VEGA R3"
+#define BTM_DEF_LOCAL_NAME "VEGA IRON"
 // Enables Interleave scan
-#define BTA_HOST_INTERLEAVE_SEARCH  TRUE
+#define BTA_HOST_INTERLEAVE_SEARCH TRUE
 // Disables read remote device feature
 #define BTA_SKIP_BLE_READ_REMOTE_FEAT TRUE
-#define MAX_L2CAP_CHANNELS    14
+#define MAX_L2CAP_CHANNELS 14
 // skips conn update at conn completion
-#define BTA_BLE_SKIP_CONN_UPD  TRUE
+#define BTA_BLE_SKIP_CONN_UPD TRUE
 #endif
