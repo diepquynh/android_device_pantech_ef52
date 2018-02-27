@@ -52,13 +52,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/thermald-qcom.conf:system/etc/thermald.conf
 
+# ramdisk
 PRODUCT_PACKAGES += \
-	fstab.qcom \
-	init.qcom.rc \
-	init.qcom.sh \
-	init.target.rc \
-	initlogo.rle \
-	ueventd.qcom.rc
+	initlogo.rle
 
 # Prebuilt kl and kcm keymaps
 PRODUCT_COPY_FILES += \
