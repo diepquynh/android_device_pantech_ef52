@@ -18,7 +18,6 @@ ril.subscription.types=NV,RUIM
 DEVICE_PROVISIONED=1
 debug.sf.hw=1
 debug.egl.hw=1
-ro.telephony.ril_class=QualcommSharedRIL
 #FEATURE_SKT_DS_CHANGE_MTU 
 persist.data_netmgrd_mtu=1440 
 #endif
