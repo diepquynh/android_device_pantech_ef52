@@ -20,6 +20,7 @@
 
 # Platform
 TARGET_BOOTLOADER_NAME := ef52l
+TARGET_BOARD_PLATFORM := msm8960
 
 # Board-specific header
 TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52l/include
