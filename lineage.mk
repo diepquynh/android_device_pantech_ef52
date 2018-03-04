@@ -13,10 +13,7 @@ $(call inherit-product, device/pantech/ef52l/ef52l.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := ef52l
-PRODUCT_NAME := cm_ef52l
+PRODUCT_NAME := lineage_ef52l
 PRODUCT_BRAND := pantech
 PRODUCT_MODEL := VEGA IRON
 PRODUCT_MANUFACTURER := PANTECH
-
-# Enable Torch
-PRODUCT_PACKAGES += Torch
