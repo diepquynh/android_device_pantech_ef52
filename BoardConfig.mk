@@ -16,20 +16,20 @@
 
 # Inherit from msm8960-common
 -include device/pantech/msm8960-common/BoardConfigCommon.mk
--include vendor/pantech/ef52l/BoardConfigVendor.mk
+-include vendor/pantech/ef52/BoardConfigVendor.mk
 
 # Platform
-TARGET_BOOTLOADER_NAME := ef52l
+TARGET_BOOTLOADER_NAME := ef52
 TARGET_BOARD_PLATFORM := msm8960
 
 # Board-specific header
-TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52l/include
+TARGET_SPECIFIC_HEADER_PATH := device/pantech/ef52/include
 
 # Kernel
 TARGET_KERNEL_CONFIG := cyanogenmod_a870_defconfig
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef52l/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/pantech/ef52/bluetooth
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 20971520 # 20M
@@ -44,10 +44,10 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DPANTECH_CAMERA_HARDWARE
 
 # Custom hardware
-# BOARD_HARDWARE_CLASS := device/pantech/ef52l/cmhw
+# BOARD_HARDWARE_CLASS := device/pantech/ef52/cmhw
 
 # Vibrator
-BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef52l/vibrator/vibrator.c
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/pantech/ef52/vibrator/vibrator.c
 
 # Recovery
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -70,4 +70,4 @@ TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 # BOARD_CUSTOM_GRAPHICS := ../../../device/pantech/msm8960-common/recovery/graphic.c
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := ef52s,ef52k,ef52l,a870s,a870k,a870l,IM-A870S,IM-A870L,IM-A870K
+TARGET_OTA_ASSERT_DEVICE := ef52,ef52s,ef52k,ef52l,a870s,a870k,a870l,IM-A870S,IM-A870L,IM-A870K

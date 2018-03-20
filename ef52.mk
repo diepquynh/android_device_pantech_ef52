@@ -23,13 +23,13 @@ PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
-PRODUCT_NAME := full_ef52l
-PRODUCT_DEVICE := ef52l
+PRODUCT_NAME := full_ef52
+PRODUCT_DEVICE := ef52
 PRODUCT_BRAND := PANTECH
 PRODUCT_MODEL := VEGA IRON
 PRODUCT_MANUFACTURER := PANTECH
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/pantech/ef52l/device.mk)
-$(call inherit-product-if-exists, vendor/pantech/ef52l/ef52l-vendor.mk)
+$(call inherit-product, device/pantech/ef52/device.mk)
+$(call inherit-product-if-exists, vendor/pantech/ef52/ef52-vendor.mk)

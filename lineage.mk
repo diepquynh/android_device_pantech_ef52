@@ -9,11 +9,11 @@ $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 $(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/pantech/ef52l/ef52l.mk)
+$(call inherit-product, device/pantech/ef52/ef52.mk)
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := ef52l
-PRODUCT_NAME := lineage_ef52l
+PRODUCT_DEVICE := ef52
+PRODUCT_NAME := lineage_ef52
 PRODUCT_BRAND := pantech
 PRODUCT_MODEL := VEGA IRON
 PRODUCT_MANUFACTURER := PANTECH
